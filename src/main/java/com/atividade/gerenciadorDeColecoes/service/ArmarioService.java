@@ -16,14 +16,36 @@ public class ArmarioService {
     @Autowired 
     private ArmarioDAO repository;
     
-    public List<ArmarioBean> ListarArmario(){
+    public List<ArmarioBean> listarArmario(){
         return repository.listarArmario();
     }
     
     public void adicionarItem (ArmarioBean armario){
-        
-        
-        repository.adicionarItem(armario);
+       
+        List<ArmarioBean> listar = repository.listarArmario();
+
+        int totalNaPrateleira = 0;
+
+        for (int contador = 0; contador < listar.size(); contador++) {
+
+            ArmarioBean armarioAtual = listar.get(contador);
+
+            if (armarioAtual.getPrateleira().equalsIgnoreCase(armario.getPrateleira())) {
+                totalNaPrateleira++;
+            }
+
+            if (armarioAtual.getItem().equalsIgnoreCase(armario.getItem()) && armarioAtual.getPrateleira().equalsIgnoreCase(armario.getPrateleira())) {
+                System.out.println("Já existe um item com esse nome nessa prateleira");
+                return;
+            }
+        }
+
+        if (totalNaPrateleira >= 10) {
+            System.out.println("Local está lotado");
+            return;
+        }
+
+    repository.adicionarItem(armario);
     }
     
     public void deletarItem (int idArmario){

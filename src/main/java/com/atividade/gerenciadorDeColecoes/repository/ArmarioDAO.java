@@ -11,7 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.naming.spi.DirStateFactory;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -50,10 +49,10 @@ public class ArmarioDAO {
             
             PreparedStatement stmt = null;
             
-            stmt = conn.prepareStatement("INSERT INTO armarios VALUES (?, ?, ?)");
+            stmt = conn.prepareStatement("INSERT INTO armarios (prateleira, item) VALUES (?, ?)");
             
-            stmt.setString(2, armario.getPrateleira());
-            stmt.setString(3, armario.getItem());
+            stmt.setString(1, armario.getPrateleira());
+            stmt.setString(2, armario.getItem());
             
             stmt.executeUpdate();
             
@@ -62,7 +61,7 @@ public class ArmarioDAO {
         }
     }
     
-    public void deletarItem (int idArmario){
+    public void deletarItem (Integer idArmario){
         
         try{
             

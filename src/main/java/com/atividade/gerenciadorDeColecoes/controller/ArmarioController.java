@@ -23,7 +23,7 @@ public class ArmarioController {
     
     @GetMapping("/locais")
     public List<ArmarioBean> listarArmario(){
-        return service.ListarArmario();
+        return service.listarArmario();
     }
     
     @PostMapping("/itens")

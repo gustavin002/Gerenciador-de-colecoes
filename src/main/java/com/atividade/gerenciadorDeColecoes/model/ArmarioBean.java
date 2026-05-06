@@ -6,24 +6,24 @@ package com.atividade.gerenciadorDeColecoes.model;
 
 public class ArmarioBean {
     
-    private int idArmario;
+    private Integer idArmario;
     private String prateleira;
     private String item;
 
     public ArmarioBean() {
     }
 
-    public ArmarioBean(int idArmario, String prateleira, String item) {
+    public ArmarioBean(Integer idArmario, String prateleira, String item) {
         this.idArmario = idArmario;
         this.prateleira = prateleira;
         this.item = item;
     }
 
-    public int getIdArmario() {
+    public Integer getIdArmario() {
         return idArmario;
     }
 
-    public void setIdArmario(int idArmario) {
+    public void setIdArmario(Integer idArmario) {
         this.idArmario = idArmario;
     }
 
