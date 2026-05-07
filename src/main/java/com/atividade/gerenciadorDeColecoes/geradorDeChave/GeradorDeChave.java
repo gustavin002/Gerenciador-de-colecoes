@@ -10,10 +10,10 @@ import javax.crypto.SecretKey;
 
 public class GeradorDeChave {
     public static void main (String[] args){
-    SecretKey key = Jwts.SIG.HS256.key().build();
+        SecretKey key = Jwts.SIG.HS256.key().build();
     
-    String secretString = Encoders.BASE64.encode(key.getEncoded());
-    System.out.println("Minha chave: " + secretString);
+        String secretString = Encoders.BASE64.encode(key.getEncoded());
+        System.out.println("Minha chave: " + secretString);
     
     }
 }

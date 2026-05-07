@@ -4,31 +4,28 @@
  */
 package com.atividade.gerenciadorDeColecoes.service;
 
+import com.atividade.gerenciadorDeColecoes.model.UsuarioBean;
 import com.atividade.gerenciadorDeColecoes.repository.UsuarioDAO;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
-import java.util.Date;
-import javax.crypto.SecretKey;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UsuarioService {
+
+    @Autowired
+    private UsuarioDAO repository;
     
-    @Value("${api.security.token.secret}")
-    private String secret;
-    
-    private SecretKey getSigningKey(){
-        byte[] keyBytes = Decoders.BASE64.decode(this.secret);
-        return Keys.hmacShaKeyFor(keyBytes);
+    public void registrar (UsuarioBean usuario){
+        repository.registrar(usuario);
     }
     
-    public String gerarToken(UsuarioDAO usuario) {
-        return Jwts.builder()
-        .subject(usuario.getLogin())
-        .issuedAt(new Date())
-        .expiration(new Date(System.currentTimeMillis() + 7200000))
-        .signWith(getSigningKey())
-        .compact();
+    public UsuarioBean login (String email, String senha){
+        
+        if(!email.equals(senha)){
+            throw new IllegalArgumentException("Senha ou Email Incorretos");
+        }
+        return repository.login(email, senha);
+        
     }
     
 }
