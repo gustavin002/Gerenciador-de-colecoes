@@ -21,11 +21,7 @@ public class UsuarioService {
     
     public UsuarioBean login (String email, String senha){
         
-        if(!email.equals(senha)){
-            throw new IllegalArgumentException("Senha ou Email Incorretos");
-        }
-        return repository.login(email, senha);
-        
+        return repository.login(email, senha);     
     }
     
 }

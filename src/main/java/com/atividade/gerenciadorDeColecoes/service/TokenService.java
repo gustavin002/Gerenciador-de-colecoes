@@ -12,7 +12,9 @@ import io.jsonwebtoken.security.Keys;
 import java.util.Date;
 import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 /**
  * TokenService - Serviço responsável pela geração e validação de tokens JWT
@@ -62,14 +64,14 @@ public class TokenService {
      * 
      * @return String - token JWT codificado em Base64
      */
-    public String gerarToken() {
+    public String gerarToken(String email) {
         return Jwts.builder()
                 // Define o subject (identificador do usuário)
-                .subject("iago.teste@teste.com")
+                .subject(email)
                 // Define quando o token foi criado
                 .issuedAt(new Date())
-                // Define quando o token expira (5 minutos = 300000 milissegundos)
-                .expiration(new Date(System.currentTimeMillis() + 300000))
+                // Define quando o token expira (50 minutos = 3000000 milissegundos)
+                .expiration(new Date(System.currentTimeMillis() + 3000000))
                 // Assina o token com a chave secreta HMAC-SHA
                 .signWith(getSignKey())
                 // Converte o token construído para a sua forma compacta (String)
@@ -98,8 +100,7 @@ public class TokenService {
             // Se chegou aqui, o token é válido
             return true;
         } catch (JwtException | IllegalArgumentException e) {
-            // Se qualquer exceção ocorrer, o token é inválido ou expirou
-            return false;
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Token expirado ou invalido");
         }
     }
     

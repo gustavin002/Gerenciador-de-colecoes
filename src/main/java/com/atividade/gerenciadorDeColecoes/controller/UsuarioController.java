@@ -6,6 +6,7 @@ package com.atividade.gerenciadorDeColecoes.controller;
 
 
 import com.atividade.gerenciadorDeColecoes.model.UsuarioBean;
+import com.atividade.gerenciadorDeColecoes.service.TokenService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.atividade.gerenciadorDeColecoes.service.UsuarioService;
@@ -18,6 +19,9 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
+    
+    @Autowired
+    private TokenService tokenService;
 
    @PostMapping("/registrar")
     public String registrar(@RequestBody UsuarioBean usuario) {
@@ -26,8 +30,13 @@ public class UsuarioController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody UsuarioBean login) {
-        usuarioService.login(login.getEmail(),login.getSenha());
-        return "Logado com sucesso";
+    public String login(@RequestBody UsuarioBean user) {
+        UsuarioBean usuario = usuarioService.login(user.getEmail(), user.getSenha());
+        if(usuario.getEmail() != null){
+            return tokenService.gerarToken(usuario.getEmail());
+        }else{
+            return "inválido";
+        }
     }
+    
 }
